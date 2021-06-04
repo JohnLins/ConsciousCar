@@ -1,14 +1,12 @@
 #include <Stepper.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #include <math.h>
 
 #define N 5
 #define PI 3.14159
 #define ITERATIONS 10
 
-double instructions[N] = {2*PI/3, 2/PI, -PI/3, PI/6, -PI/2};
+double instructions[N];
 
 double reward(double* instruc, void (*f)(double)){
   float out = 0;
@@ -58,18 +56,14 @@ void display(double* a){
 }
 
 void init_instructions(double instruc[N]){
-    time_t t;
-    srand((unsigned) time(&t)); 
+    randomSeed(analogRead(0));
     for(int i = 0; i < N; i++){
-        instruc[i] = ((rand() % (360*2)) - 360) * (PI/180);
-        //instructions[i] = rand() % (-(2.0*PI) - (2.0*PI) + 1);
+        instruc[i] = random(-360, 360) * (PI/180);
     }    
 }
 
 
-
-// Define number of steps per rotation:
-const int stepsPerRev = 2048;
+const int steps_per_rev = 2048;
 
 // Wiring:
 // Pin 8 to IN1 on the ULN2003 driver
@@ -77,60 +71,30 @@ const int stepsPerRev = 2048;
 // Pin 10 to IN3 on the ULN2003 driver
 // Pin 11 to IN4 on the ULN2003 driver
 
-// Create stepper object called 'myStepper', note the pin order:
-Stepper myStepper = Stepper(stepsPerRev, 8, 10, 9, 11);
+
+Stepper myStepper = Stepper(steps_per_rev, 8, 10, 9, 11);
 
 
 
 
-
-   
-  
- //printf("instructions1: "); display(instructions);
-  
-  //for(int i = 0; i < ITERATIONS; i++){
-  
-  //}
-  
-  
- // printf("instructions2: "); display(instructions);
 
 
 void setup() {
-   // Begin Serial communication at a baud rate of 9600:
-  SerialUSB.begin(9600);
-while (!SerialUSB && millis() < 500); //Wait for Serial to be ready
+  Serial.begin(9600);
 
-  //init_instructions(instructions);
+  init_instructions(instructions);
   
-  Serial.println(instructions[0]);
-  
-  // Set the speed to 5 rpm:
   myStepper.setSpeed(15);
-  
-  
 }
 
 void turn(double angle){
-  
   myStepper.step(  (angle)/(PI*2) * stepsPerRev );
   delay(500);
 }
 
 void loop() {
-  /*turn(PI/6);
-  delay(1000);
-  turn(-PI/6);*/
-
- 
    Serial.print(reward(instructions, &turn));
-  gradient_ascent(instructions);
+   gradient_ascent(instructions);
   
-    delay(2000);
-
-
-
-
-  
-
+   delay(2000);
 }
