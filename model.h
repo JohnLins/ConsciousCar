@@ -1,14 +1,17 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <math.h>
 
 #define N 5
 #define PI 3.14159
-#define ITERATIONS 200
+#define ITERATIONS 10
 
-double reward(double* instructions){
+double reward(double* instructions, void (*f)(double)){
   float out = 0;
   for(int i = 0; i < N; i++){
     out += 2*PI*instructions[i];
+    (*f)(instructions[i]);
   }
   return out;
 }
@@ -51,18 +54,13 @@ void display(double* a){
   printf("\n");
 }
 
-int main()
-{
-  double instructions[N] = {2*PI/3, 2/PI, -PI/3, PI/6, -PI/2};
-  
-  printf("instructions1: "); display(instructions);
-  
-  for(int i = 0; i < ITERATIONS; i++){
-    printf("%lf\n", reward(instructions));
-    gradient_ascent(instructions);
-  }
-  
-  
-  printf("instructions2: "); display(instructions);
-  return 0;
+void init_instructions(double instructions[N]){
+    time_t t;
+    srand((unsigned) time(&t)); 
+    for(int i = 0; i < N; i++)
+    {                       //min-max+1
+        instructions[i] = ((rand() % (360*2)) - 360) * (PI/180);
+        //instructions[i] = rand() % (-(2.0*PI) - (2.0*PI) + 1);
+    }    
 }
+
