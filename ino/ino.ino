@@ -12,7 +12,7 @@ double reward(double* instruc, void (*f)(double)){
   float out = 0;
   for(int i = 0; i < N; i++){
     out += 2*PI*instruc[i];
-    (*f)(instruc[i]);
+    (*f)(-instruc[i]);
   }
   return out;
 }
@@ -63,21 +63,10 @@ void init_instructions(double instruc[N]){
 }
 
 
-const int steps_per_rev = 2048;
-
-// Wiring:
-// Pin 8 to IN1 on the ULN2003 driver
-// Pin 9 to IN2 on the ULN2003 driver
-// Pin 10 to IN3 on the ULN2003 driver
-// Pin 11 to IN4 on the ULN2003 driver
+const int stepsPerRev = 2048;
 
 
-Stepper myStepper = Stepper(steps_per_rev, 8, 10, 9, 11);
-
-
-
-
-
+Stepper myStepper = Stepper(stepsPerRev, 8, 10, 9, 11);
 
 void setup() {
   Serial.begin(9600);
@@ -98,3 +87,14 @@ void loop() {
   
    delay(2000);
 }
+
+
+
+
+
+// Wiring:
+// Pin 8 to IN1 on the ULN2003 driver
+// Pin 9 to IN2 on the ULN2003 driver
+// Pin 10 to IN3 on the ULN2003 driver
+// Pin 11 to IN4 on the ULN2003 driver
+
