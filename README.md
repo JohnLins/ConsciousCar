@@ -1,5 +1,15 @@
 # ConsciousWheel
 
+## Before Training:
+
+<img src="assets/first.gif"/>
+
+## After Training:
+
+<img src="assets/last.gif"/>
+
+## Logic:
+
 <img src="assets/w.png"/>
 
 <img src="assets/reward.png"/>
@@ -13,4 +23,24 @@
 2\pi & i=j \\
 2\pi*w_{i} & else \\
 \end{array}\right\}                                                        w_{i}^{new} = w_{i}^{old} + L \frac{\frac{\partial Reward}{\partial w_{i}}}{||\nabla Reward||}* (2\pi)-->
+
+
+
+<img src="assets/1.jpg"/>
+
+<img src="assets/2.jpg"/>
+
+<img src="assets/3.jpg"/>
+
+<img src="assets/4.jpg"/>
+
+<img src="assets/5.jpg"/>
+
+<img src="assets/6.jpg"/>
+
+
+
+
+
+
 
