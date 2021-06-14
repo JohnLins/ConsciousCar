@@ -1,10 +1,16 @@
 #include <Stepper.h>
+
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(13, 12, 5, 4, 3, 2);
+
 #include <stdio.h>
 #include <math.h>
 
 #define N 5
 #define PI 3.14159
 #define ITERATIONS 10
+
+int iteration;
 
 double instructions[N];
 
@@ -74,6 +80,10 @@ void setup() {
   init_instructions(instructions);
   
   myStepper.setSpeed(15);
+
+  lcd.begin(16, 2);
+
+  iteration = 1;
 }
 
 void turn(double angle){
@@ -82,10 +92,23 @@ void turn(double angle){
 }
 
 void loop() {
-   Serial.print(reward(instructions, &turn));
+   lcd.setCursor(0,0);
+   lcd.print("iteration: ");
+   lcd.setCursor(12,0);
+   lcd.print(iteration);
+
+   lcd.setCursor(0,1);
+   lcd.print("reward: ");
+   lcd.setCursor(9, 1);
+   lcd.print(reward(instructions, &turn));
+
+   
+   
    gradient_ascent(instructions);
   
    delay(2000);
+
+   iteration++;
 }
 
 
@@ -97,4 +120,3 @@ void loop() {
 // Pin 9 to IN2 on the ULN2003 driver
 // Pin 10 to IN3 on the ULN2003 driver
 // Pin 11 to IN4 on the ULN2003 driver
-
