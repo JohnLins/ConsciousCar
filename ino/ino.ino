@@ -9,6 +9,7 @@ LiquidCrystal lcd(13, 12, 5, 4, 3, 2);
 #define N 5
 #define PI 3.14159
 #define ITERATIONS 10
+#define R 10
 
 int iteration;
 
@@ -17,7 +18,7 @@ double instructions[N];
 double reward(double* instruc, void (*f)(double)){
   float out = 0;
   for(int i = 0; i < N; i++){
-    out += 2*PI*instruc[i];
+    out *= R*instruc[i];
     (*f)(-instruc[i]);
   }
   return out;
@@ -27,16 +28,16 @@ double partial_reward(double* instruc, int with_respect_to_index){
   double out = 0;
   for(int i = 0; i < N; i++){
     if(i == with_respect_to_index){
-      out += 2*PI;
+      out *= R;
     } else {
-      out += 2*PI*instruc[i];
+      out *= R*instruc[i];
     }
   }
   return out;
 }
 
 void gradient_ascent(double* instruc){
-  double learning_rate = 0.01;
+  double learning_rate = 0.005;
   
   
   double magnitude = 0;
