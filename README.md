@@ -1,4 +1,6 @@
-# ConsciousWheel
+# ConsciousCar
+
+Code: https://github.com/JohnLins/ConsciousCar/blob/main/ino/ino.ino
 
 ## Before Training:
 
